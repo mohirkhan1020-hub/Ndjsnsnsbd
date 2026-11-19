@@ -1,0 +1,35 @@
+name: Build Flutter APK
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - name: Build Flutter
+        run: |
+          set -o pipefail
+          flutter pub get
+          flutter build apk --debug 2>&1 | tee build-output.log
+      - uses: softprops/action-gh-release@v2
+        if: success()
+        with:
+          tag_name: v1.0-${{ github.run_number }}
+          fail_on_unmatched_files: false
+          files: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/bundle/release/*.aab
+      - uses: softprops/action-gh-release@v2
+        if: failure()
+        with:
+          tag_name: log-latest
+          fail_on_unmatched_files: false
+          files: build-output.log
