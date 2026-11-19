@@ -1,11 +1,45 @@
-import 'package:flutter/material.dart';
+import 'import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Scaffold(appBar: AppBar(title: const Text('Wevlo Flutter')), body: const Center(child: Text('Flutter APK Ready!'))));
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // ডানদিকের ডিবাগ ব্যানার সরানোর জন্য
+      title: 'My First App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('আমার প্রথম অ্যাপ'),
+        centerTitle: true,
+      ),
+      body: const Center(
+        child: Text(
+          'Hello World!',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+      ),
+    );
   }
 }
